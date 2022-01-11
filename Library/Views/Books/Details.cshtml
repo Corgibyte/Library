@@ -18,6 +18,7 @@
   </ul>
 
 
-<p>@Html.ActionLink("Back to Books", "Index")</p>
+<p>@Html.ActionLink("Add an Author", "AddAuthor", new { id = Model.BookId })</p>
 <p>@Html.ActionLink("Edit Book", "Edit", new { id = Model.BookId })</p>
 <p>@Html.ActionLink("Delete Book", "Delete", new { id = Model.BookId })</p>
+<p>@Html.ActionLink("Back to Books", "Index")</p>
