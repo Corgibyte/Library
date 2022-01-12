@@ -115,5 +115,23 @@ namespace Library.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult AddCopies(int id)
+    {
+      Book thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
+      return View(thisBook);
+    }
+
+    [HttpPost]
+    public ActionResult AddCopies(Book book, int NumCopies)
+    {
+      for (int i = 0; i < NumCopies; i++)
+      {
+        Copy newCopy = new Copy() { BookId = book.BookId, IsCheckedOut = false };
+        _db.Copies.Add(newCopy);
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Details", new {id = book.BookId });
+    }
   }
 }

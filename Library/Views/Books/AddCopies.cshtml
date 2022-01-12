@@ -1,0 +1,15 @@
+@model Library.Models.Book;
+
+<h4>Add copies to @Html.DisplayFor(model => model.Title)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.BookId)
+
+  @Html.Label("number of copies to add to library")
+  @Html.TextBox("NumCopies")
+
+  <input type="submit" value="Add copies" class="btn btn-default" />
+}
+
+<p>@Html.ActionLink("Back to book", "Details", new {id = Model.BookId })</p>
