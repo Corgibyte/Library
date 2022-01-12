@@ -11,7 +11,6 @@ using System.Security.Claims;
 
 namespace Library.Controllers
 {
-  [Authorize]
   public class BooksController : Controller
   {
     private readonly LibraryContext _db;
@@ -23,30 +22,32 @@ namespace Library.Controllers
       _db = db;
     }
 
-    public async Task<ActionResult> Index()
+    public ActionResult Index()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userBooks = _db.Books.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(userBooks);
+      return View(_db.Books.ToList());
     }
 
     public ActionResult Create()
     {
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
       return View();
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Book book, int AuthorId)
+    public async Task<ActionResult> Create(Book book, int AuthorId, int Copies)
     {
         var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var currentUser = await _userManager.FindByIdAsync(userId);
-        book.User = currentUser;
         _db.Books.Add(book);
         _db.SaveChanges();
         if (AuthorId != 0)
         {
             _db.AuthorBook.Add(new AuthorBook() { AuthorId = AuthorId, BookId = book.BookId });
+        }
+        for (int i = 0; i < Copies; i++)
+        {
+          Copy newCopy = new Copy() { BookId = book.BookId, IsCheckedOut = false };
+          _db.Copies.Add(newCopy);
         }
         _db.SaveChanges();
         return RedirectToAction("Index");
@@ -57,6 +58,7 @@ namespace Library.Controllers
       var thisBook = _db.Books
         .Include(book => book.Authors)
         .ThenInclude(join => join.Author)
+        .Include(book => book.Copies)
         .FirstOrDefault(book => book.BookId == id);
       return View(thisBook);
     }

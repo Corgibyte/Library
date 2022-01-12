@@ -7,8 +7,11 @@
   @Html.LabelFor(model => model.Title)
   @Html.TextBoxFor(model => model.Title)
 
-  @* @Html.Label("Select author")
-  @Html.DropDownList("AuthorId") *@
+  @Html.Label("Select author")
+  @Html.DropDownList("AuthorId")
+
+  @Html.Label("Number of copies library owns")
+  @Html.TextBox("Copies")
   
   <input type="submit" value="Add new book" class="btn btn-default" />
 }

@@ -3,14 +3,16 @@ using System;
 using Library.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Library.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20220112174136_upateCopyModel")]
+    partial class upateCopyModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,66 +135,6 @@ namespace Library.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("Library.Models.Checkout", b =>
-                {
-                    b.Property<int>("CheckoutId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CopyId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("PatronId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CheckoutId");
-
-                    b.HasIndex("CopyId");
-
-                    b.HasIndex("PatronId");
-
-                    b.ToTable("Checkouts");
-                });
-
-            modelBuilder.Entity("Library.Models.Copy", b =>
-                {
-                    b.Property<int>("CopyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCheckedOut")
-                        .HasColumnType("tinyint(1)");
-
-                    b.HasKey("CopyId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("Copies");
-                });
-
-            modelBuilder.Entity("Library.Models.Patron", b =>
-                {
-                    b.Property<int>("PatronId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("PatronId");
-
-                    b.ToTable("Patrons");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -351,36 +293,6 @@ namespace Library.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Library.Models.Checkout", b =>
-                {
-                    b.HasOne("Library.Models.Copy", "Copy")
-                        .WithMany("Checkouts")
-                        .HasForeignKey("CopyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Models.Patron", "Patron")
-                        .WithMany("Checkouts")
-                        .HasForeignKey("PatronId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Copy");
-
-                    b.Navigation("Patron");
-                });
-
-            modelBuilder.Entity("Library.Models.Copy", b =>
-                {
-                    b.HasOne("Library.Models.Book", "Book")
-                        .WithMany("Copies")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -440,18 +352,6 @@ namespace Library.Migrations
             modelBuilder.Entity("Library.Models.Book", b =>
                 {
                     b.Navigation("Authors");
-
-                    b.Navigation("Copies");
-                });
-
-            modelBuilder.Entity("Library.Models.Copy", b =>
-                {
-                    b.Navigation("Checkouts");
-                });
-
-            modelBuilder.Entity("Library.Models.Patron", b =>
-                {
-                    b.Navigation("Checkouts");
                 });
 #pragma warning restore 612, 618
         }
