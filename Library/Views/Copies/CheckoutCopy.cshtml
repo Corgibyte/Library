@@ -1,0 +1,10 @@
+@model Library.Models.Copy
+
+<h2>Are you sure you want to checkout this copy of @Html.DisplayFor(model => model.Book.Title)?</h2>
+
+@using (Html.BeginForm())
+{
+  <input type="submit" value="CheckoutCopy" />
+}
+
+@Html.ActionLink("Back to book", "Details", "Books", new { id = Model.BookId })
