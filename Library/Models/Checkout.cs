@@ -10,7 +10,5 @@ namespace Library.Models
     public bool IsReturned { get; set; }
     public int CopyId { get; set; }
     public virtual Copy Copy { get; set; }
-    public int PatronId { get; set; }
-    public virtual Patron Patron { get; set; }
   }
 }

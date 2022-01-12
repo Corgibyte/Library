@@ -19,6 +19,8 @@
 
 This application is an 11th independent project at Epicodus to show understanding in ASP.Net Core MVC many-to-may relationships using mySql, Entity, and Razor. This app allows the user to manage their engineers and the machines they are licensed to repair.
 
+![Alt text](Factory/wwwroot/img/sql.jpg?raw=true "Title")
+
 ## TODO
 
 1. Implement copies and checkouts
